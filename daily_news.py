@@ -2,7 +2,7 @@ import feedparser
 import google.generativeai as genai
 
 # Gemini API Configuration
-genai.configure(api_key="AIzaSyBkaHGTd3ghbrI-aXymVZk5U6hdVCLwgyU")
+genai.configure(api_key="API-KEY")
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 # Summarization Function 
