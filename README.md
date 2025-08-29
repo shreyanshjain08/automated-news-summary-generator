@@ -29,11 +29,6 @@ An **AI-powered news monitoring tool** that:
 
 ---
 
-## 📸 Demo
-![Demo Screenshot](demo.gif)  
-*(Replace with actual GIF of your project in action)*
-
----
 
 ## 📦 Installation
 ```bash
