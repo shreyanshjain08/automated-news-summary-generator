@@ -1,75 +1,173 @@
+import os
+import re
+import ssl
+import smtplib
 import feedparser
 import google.generativeai as genai
+import requests
+import schedule
+import time
+from email.message import EmailMessage
+from datetime import datetime
+from bs4 import BeautifulSoup
 
-# Gemini API Configuration
-genai.configure(api_key="API-KEY")
-model = genai.GenerativeModel("gemini-2.5-flash")
+# ================= CONFIG =================
+# Gemini API Key (put directly here)
+GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
 
-# Summarization Function 
-def summarize_article(text):
-    prompt = f"Summarize the following article in under 300 words:\n\n{text}"
-    try:
-        response = model.generate_content(prompt)
-        return response.text.strip()
-    except Exception as e:
-        return f" Error: {str(e)}"
+# Email credentials
+EMAIL_FROM = "your_email@gmail.com"
+EMAIL_PASSWORD = "your_gmail_app_password"  # App password (not normal password)
+EMAIL_TO = "receiver_email@gmail.com"
+EMAIL_SUBJECT = "📬 Automated Daily News"
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT_SSL = 465
 
-# Fetch Articles from RSS Feed
-def fetch_articles(rss_url, limit=3):
-    feed = feedparser.parse(rss_url)
+# News Config
+RSS_FEEDS = [
+    "https://techcrunch.com/feed/",
+    "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"
+]
+MAX_ARTICLES_PER_FEED = 5
+SUMMARY_MAX_WORDS = 180
+
+# Output
+OUTPUT_DIR = "data"
+FILENAME_PREFIX = "daily_news_"
+SEND_EMAIL_AFTER_RUN = True   # Auto-send after run?
+# ==========================================
+
+
+# --- helper functions ---
+def ensure_dir(path: str):
+    os.makedirs(path, exist_ok=True)
+
+def today_filename(prefix: str, ext=".txt"):
+    return f"{prefix}{datetime.today():%Y-%m-%d}{ext}"
+
+def strip_html(html: str) -> str:
+    if not html:
+        return ""
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    text = soup.get_text(" ", strip=True)
+    return re.sub(r"\s+", " ", text).strip()
+
+def fetch_rss_articles(feed_urls, limit=5):
     articles = []
-    for entry in feed.entries[:limit]:
-        articles.append({
-            "title": entry.title,
-            "link": entry.link,
-            "summary": entry.summary
-        })
+    for url in feed_urls:
+        feed = feedparser.parse(url)
+        for e in feed.entries[:limit]:
+            content = e.get("content", [{}])[0].get("value") if e.get("content") else e.get("summary", "")
+            articles.append({
+                "title": e.get("title", "(no title)"),
+                "link": e.get("link", ""),
+                "raw": strip_html(content)
+            })
     return articles
 
-if __name__ == "__main__":
-    rss_url = "https://techcrunch.com/feed/"  # You can replace with any RSS feed
-    articles = fetch_articles(rss_url)
+def init_gemini(api_key: str, model_name="gemini-1.5-flash"):
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel(model_name)
 
-    # Generate summaries using Gemini
-    for article in articles:
-        article['ai_summary'] = summarize_article(article['summary'])
+def summarize(model, text: str, max_words=180) -> str:
+    if not text:
+        return "(No content available)"
+    prompt = (
+        f"Summarize the following article in under {max_words} words:\n\n"
+        f"{text[:6000]}"
+    )
+    resp = model.generate_content(prompt)
+    return (resp.text or "").strip()
 
-    # Write output to file
-    with open("daily_news.txt", "w", encoding="utf-8") as f:
-        for article in articles:
-            f.write(f" {article['title']}\n")
-            f.write(f" {article['link']}\n")
-            f.write(f" Summary:\n{article['ai_summary']}\n")
-            f.write("-" * 40 + "\n\n")
+def categorize(text: str) -> str:
+    _CATEGORY_KEYWORDS = {
+        "technology": ["startup", "tech", "software", "ai", "app", "device", "cloud", "chip", "robot"],
+        "business": ["revenue", "funding", "merger", "market", "profit", "stock", "ipo"],
+        "science": ["research", "study", "scientists", "physics", "biology", "space"],
+        "sports": ["match", "tournament", "league", "goal", "player", "cricket", "football"],
+        "politics": ["election", "minister", "policy", "parliament", "government"],
+        "entertainment": ["movie", "film", "music", "series", "celebrity", "award"]
+    }
+    t = text.lower()
+    best, score = "general", 0
+    for label, kws in _CATEGORY_KEYWORDS.items():
+        s = sum(k in t for k in kws)
+        if s > score:
+            score, best = s, label
+    return best
 
-    print(" Daily news saved to 'daily_news.txt'")
+def write_digest_file(items: list, out_path: str):
+    with open(out_path, "w", encoding="utf-8") as f:
+        for it in items:
+            f.write(f"📰 {it['title']}\n")
+            f.write(f"🔗 {it['link']}\n")
+            f.write(f"📂 Category: {it['category']}\n")
+            f.write(f"🧠 Summary:\n{it['summary']}\n")
+            f.write("-" * 70 + "\n")
 
-import smtplib
-from email.message import EmailMessage
+def send_email_file(filepath: str):
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"Digest file not found: {filepath}")
 
-def send_email():
-    EMAIL_ADDRESS = "your_email@gmail.com"        # Your Gmail address
-    EMAIL_PASSWORD = "Passcode"          # 16-char app password
-    TO_EMAIL = "recivier_email@gmail.com"         # Can be same as yours
+    with open(filepath, "r", encoding="utf-8") as f:
+        body = f.read()
 
     msg = EmailMessage()
-    msg['Subject'] = "Your AI Daily News"
-    msg['From'] = EMAIL_ADDRESS
-    msg['To'] = TO_EMAIL
+    msg["Subject"] = EMAIL_SUBJECT
+    msg["From"] = EMAIL_FROM
+    msg["To"] = EMAIL_TO
+    msg.set_content(body)
 
-    # Load content from daily_news.txt
-    with open("daily_news.txt", "w", encoding="utf-8") as f:
+    with open(filepath, "rb") as af:
+        msg.add_attachment(af.read(), maintype="text", subtype="plain", filename=os.path.basename(filepath))
 
-        msg.set_content(f.read())
-
-    # Send email via Gmail SMTP
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT_SSL, context=context) as smtp:
+        smtp.login(EMAIL_FROM, EMAIL_PASSWORD)
         smtp.send_message(msg)
-        print("Email sent to", TO_EMAIL)
+
+    print(f"✅ Emailed digest: {filepath}")
+
+
+# --- main run ---
+def run():
+    model = init_gemini(GEMINI_API_KEY)
+
+    print("📡 Fetching articles...")
+    articles = fetch_rss_articles(RSS_FEEDS, limit=MAX_ARTICLES_PER_FEED)
+
+    print("🤖 Summarizing...")
+    processed = []
+    for a in articles:
+        summary = summarize(model, a["raw"], max_words=SUMMARY_MAX_WORDS)
+        processed.append({
+            "title": a["title"],
+            "link": a["link"],
+            "category": categorize(f"{a['title']} {summary}"),
+            "summary": summary
+        })
+
+    ensure_dir(OUTPUT_DIR)
+    out_file = os.path.join(OUTPUT_DIR, today_filename(FILENAME_PREFIX))
+    write_digest_file(processed, out_file)
+    print(f"📂 Digest saved: {out_file}")
+
+    if SEND_EMAIL_AFTER_RUN:
+        send_email_file(out_file)
+
+
+# --- scheduler ---
+def schedule_job():
+    schedule.every().day.at("09:00").do(run)
+    print("⏰ Scheduler set for 9:00 AM daily...")
+    while True:
+        schedule.run_pending()
+        time.sleep(30)
+
 
 if __name__ == "__main__":
-    ...
-    print("Daily news saved to 'daily_newst.txt'")
-    send_email()
-
+    run()
+    # For daily schedule instead of one-time run:
+    # schedule_job()
