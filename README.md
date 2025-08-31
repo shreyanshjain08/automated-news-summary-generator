@@ -5,33 +5,36 @@
 [![NLP](https://img.shields.io/badge/NLP-Transformers-yellow)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-An **AI-powered news monitoring tool** that:
-- Fetches the latest news articles from **RSS feeds**.
-- Summarizes content using **Google Gemini API (Gemini 2.5 Flash)**.
-- Performs **Sentiment Analysis** (Positive / Negative / Neutral).
-- Saves summaries locally or emails them via **Gmail SMTP**.
+An **AI-powered news monitoring and summarization tool** that:
+- 📡 Fetches the latest news articles from **RSS feeds**  
+- 🤖 Summarizes content using **Google Gemini API (Gemini 2.5 Flash)**  
+- 📊 Performs **Sentiment Analysis** (Positive / Negative / Neutral)  
+- 📧 Saves summaries locally or emails them via **Gmail SMTP**  
 
 ---
 
 ## 🚀 Features
-- **Automated News Fetching** — Live from any RSS feed.
-- **AI Summarization** — Concise summaries using Generative AI.
-- **Sentiment Analysis** — Classifies tone of news articles.
-- **Email Integration** — Sends digests straight to your inbox.
+- **Automated News Fetching** — Live updates from RSS feeds  
+- **AI Summarization** — Concise, human-like summaries using Generative AI  
+- **Sentiment Analysis** — Detects tone of news articles  
+- **Email Integration** — Sends curated digests directly to your inbox  
+- **Scheduler Support** — Automates digest delivery daily at 9 AM  
 
 ---
 
 ## 🛠 Tech Stack
-- **Language:** Python
-- **AI Models:** Google Gemini API (Gemini 2.5 Flash)
-- **Libraries:** feedparser, transformers, NLTK, smtplib
-- **Others:** RSS Feeds, SMTP Automation
+- **Language:** Python  
+- **AI Models:** Google Gemini API (Gemini 2.5 Flash)  
+- **Libraries:** `feedparser`, `transformers`, `NLTK`, `smtplib`, `schedule`, `beautifulsoup4`  
+- **Others:** RSS Feeds, SMTP Automation  
 
 ---
 
+## 📂 Project Structure
+automated-news-summary-generator/
+│── main.py # Main script (fetch, summarize, sentiment, email)
+│── data/ # Generated daily digests
+│ └── daily_news.txt
+│── README.md # Documentation
 
-## 📦 Installation
-```bash
-git clone https://github.com/shreyanshjain08/automated-news-summary-generator.git
-cd automated-news-summary-generator
-pip install -r requirements.txt
+## 📂 Project Structure
