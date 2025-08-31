@@ -30,11 +30,3 @@ An **AI-powered news monitoring and summarization tool** that:
 
 ---
 
-## 📂 Project Structure
-automated-news-summary-generator/
-│── main.py # Main script (fetch, summarize, sentiment, email)
-│── data/ # Generated daily digests
-│ └── daily_news.txt
-│── README.md # Documentation
-
-## 📂 Project Structure
