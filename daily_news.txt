@@ -1,18 +1,60 @@
-📰 The uproar over Vogue’s AI-generated ad isn’t just about fashion
-🔗 https://techcrunch.com/2025/08/03/the-uproar-over-vogues-ai-generated-ad-isnt-just-about-fashion/
+📰 Nvidia says two mystery customers accounted for 39% of Q2 revenue
+🔗 https://techcrunch.com/2025/08/30/nvidia-says-two-mystery-customers-accounted-for-39-of-q2-revenue/
+📂 Category: technology
 🧠 Summary:
-Sarah Murray told TechCrunch that the modeling profession, already inherently challenging, now faces a significant new hurdle: competition from artificial intelligence (AI). She highlighted that AI can achieve "new digital standards of perfection," creating an unequal playing field. This means professional models are increasingly forced to compete with digitally generated, flawless images, adding immense pressure and complicating their careers. Her comments underscore a growing concern within the industry about how AI's capabilities will reshape the future for human talent.
-----------------------------------------
-
-📰 Tim Cook reportedly tells employees Apple ‘must’ win in AI
-🔗 https://techcrunch.com/2025/08/02/tim-cook-reportedly-tells-employees-apple-must-win-in-ai/
+Nvidia's recent financial filing revealed a significant reliance on two key customers, designated "Customer A" and "Customer B."  These two companies accounted for almost 40% of Nvidia's Q2 revenue.  While the identities remain undisclosed, this dependence highlights a concentration risk for the tech giant.  This reliance underscores the importance of these partnerships to Nvidia's financial performance and raises questions about potential future vulnerability should the relationship with either customer change.  The lack of transparency regarding these crucial clients leaves investors and analysts seeking further information to assess the overall health and stability of Nvidia's business.
+----------------------------------------------------------------------
+📰 Taco Bell is having second thoughts about relying on AI at the drive-through
+🔗 https://techcrunch.com/2025/08/30/taco-bell-is-having-second-thoughts-about-relying-on-ai-at-the-drive-through/
+📂 Category: technology
 🧠 Summary:
-Apple CEO Tim Cook recently held an hourlong all-hands meeting with employees, emphasizing the company's critical need to succeed in artificial intelligence. Cook reportedly told staff that "Apple must do this. Apple will do this," signaling a strong and determined focus on winning in the AI space.
-----------------------------------------
-
-📰 Lina Khan points to Figma IPO as vindication of M&A scrutiny
-🔗 https://techcrunch.com/2025/08/02/lina-khan-points-to-figma-ipo-as-vindication-for-ma-scrutiny/
+Taco Bell's rollout of AI-powered voice ordering at over 500 drive-thrus has resulted in some humorous, albeit frustrating, consequences.  The AI system, intended to streamline ordering, has been easily manipulated.  Viral videos showcase customers exploiting the system, such as one instance where a customer ordered 18,000 water cups to circumvent the AI and reach a human employee.  These incidents highlight the challenges of implementing AI in customer service, particularly in fast-paced environments like drive-thrus, where unexpected user behavior can easily expose vulnerabilities in the system's design and necessitate human intervention.  The success of this AI implementation remains questionable given its susceptibility to manipulation and the resulting workload placed on human staff.
+----------------------------------------------------------------------
+📰 The fall of EV startup Fisker: A comprehensive timeline
+🔗 https://techcrunch.com/2025/08/30/the-fall-of-ev-startup-fisker-a-comprehensive-timeline/
+📂 Category: technology
 🧠 Summary:
-Lina Khan, former chair of the Federal Trade Commission, is surprisingly celebrating Figma's successful Initial Public Offering (IPO). Khan stated that the IPO demonstrates the significant value in allowing startups the freedom to develop into self-sufficient, prosperous companies.
-----------------------------------------
-
+Please provide the article text. I need the content of the article about Fisker's bankruptcy to summarize it for you.
+----------------------------------------------------------------------
+📰 I’m really impressed with this $400 portable projector
+🔗 https://techcrunch.com/2025/08/30/im-really-impressed-with-this-400-portable-projector/
+📂 Category: technology
+🧠 Summary:
+Lumi's new portable projector boasts significant advancements in projector technology.  Its key features include built-in Google TV, providing easy access to streaming services, and an innovative obstacle avoidance system.  This combination of smart functionality and advanced projection capabilities makes it a convenient and user-friendly option for those seeking a portable home theater solution.  The article highlights the projector's evolution beyond basic projection, emphasizing the convenience and advanced features offered in a compact design.
+----------------------------------------------------------------------
+📰 Cracks are forming in Meta’s partnership with Scale AI
+🔗 https://techcrunch.com/2025/08/29/cracks-are-forming-in-metas-partnership-with-scale-ai/
+📂 Category: technology
+🧠 Summary:
+Meta's significant $14.3 billion investment in Scale AI, a data annotation company, is proving somewhat ironic.  Two months later,  Meta is heavily reliant on Scale AI's partnerships with *competitors* like Google and OpenAI to obtain the high-quality training data crucial for developing its own next-generation AI models.  This highlights a potential weakness in Meta's strategy; while investing substantially in data acquisition, they are indirectly supporting rival AI development through Scale AI's broader client base.  The situation underscores the competitive landscape of AI development, where access to quality data is paramount, even if it means inadvertently bolstering the capabilities of competitors.
+----------------------------------------------------------------------
+📰 Nvidia Earnings Show Sales Jump Amid Strong Demand for A.I. Chips
+🔗 https://www.nytimes.com/2025/08/27/technology/nvidia-earnings-ai-chips.html
+📂 Category: technology
+🧠 Summary:
+Nvidia's CEO, Jensen Huang, has steered the company to a position of immense influence over the stock market.  Nvidia's remarkable success, driven by its dominance in the AI chip market, has made it a bellwether for the broader tech sector and the overall economy.  The company's strong financial performance and its crucial role in the rapidly expanding AI industry have created a ripple effect, impacting investor sentiment and market trends.  Nvidia's stock price movements are now closely watched as a key indicator of both the health of the tech sector and the broader economic outlook, highlighting the company's outsized importance in today's financial landscape.  This dominance rests on its specialized chips crucial for artificial intelligence applications, solidifying its position as a market leader.
+----------------------------------------------------------------------
+📰 Google Pixel 10 Pro Review: This A.I. Phone Can Save Time if You Surrender Your Data
+🔗 https://www.nytimes.com/2025/08/27/technology/personaltech/google-pixel-10-pro-review-ai-phone.html
+📂 Category: technology
+🧠 Summary:
+Google's new AI-powered Pixel boasts features designed to streamline user tasks, offering increased efficiency.  However, a review cautions that this convenience comes at a cost: user data.  The article highlights a trade-off between enhanced functionality and the potential privacy implications of providing extensive personal information to Google's AI.  While the Pixel's AI capabilities are acknowledged as helpful, the reviewer suggests users carefully consider the value proposition, weighing the benefits of increased efficiency against the potential risks associated with data collection and its usage.  The core argument is that the promised ease of use might not justify the price of personal data.
+----------------------------------------------------------------------
+📰 A Teen Was Suicidal. ChatGPT Was the Friend He Confided In.
+🔗 https://www.nytimes.com/2025/08/26/technology/chatgpt-openai-suicide.html
+📂 Category: technology
+🧠 Summary:
+The image depicts Adam Raine shortly before his death.  The most striking detail is the presence of his baby blanket, draped over a corner of the setting.  The photograph's emotional impact relies heavily on this detail, suggesting themes of innocence lost, vulnerability, and the lingering presence of childhood in the face of mortality.  The context—a posthumous photograph—imbues the image with a profound sadness and unspoken narrative. The blanket acts as a poignant visual metaphor, connecting Raine's past with his tragic end.  Further details about the circumstances of his death are not provided, leaving the viewer to contemplate the implications of the scene.
+----------------------------------------------------------------------
+📰 How to Set Up a Personalized News Feed on Your Phone
+🔗 https://www.nytimes.com/2025/08/27/technology/personaltech/apple-google-news-customize.html
+📂 Category: technology
+🧠 Summary:
+The Apple News app offers a centralized hub for news consumption.  Users can curate a personalized feed by selecting topics of interest, ensuring they stay updated on relevant headlines.  The app also features a breaking news section, providing timely alerts on significant current events.  Essentially, it acts as a personalized news dashboard, aggregating information from various sources into a single, easily accessible platform.
+----------------------------------------------------------------------
+📰 An Online Group Claims It’s Behind Campus Swatting Wave
+🔗 https://www.nytimes.com/2025/08/30/us/school-shooting-hoax-universities-purgatory-swatting.html
+📂 Category: technology
+🧠 Summary:
+An online group has claimed responsibility for a series of swatting incidents targeting American college campuses.  These incidents, which involve hoax calls to emergency services leading to armed police responses, have disrupted campus life and tied up law enforcement resources.  One confirmed target was Villanova University on August 21st.  The group's public acknowledgement highlights the increasing sophistication and brazenness of swatting attacks, underscoring concerns about online anonymity and the potential for serious consequences stemming from these pranks.  The announcement raises questions about the group's motivations and the potential for further incidents.
+----------------------------------------------------------------------
