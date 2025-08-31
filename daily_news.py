@@ -4,26 +4,27 @@ import ssl
 import smtplib
 import feedparser
 import google.generativeai as genai
-import requests
 import schedule
 import time
 from email.message import EmailMessage
 from datetime import datetime
 from bs4 import BeautifulSoup
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+
+# Make sure VADER lexicon is downloaded
+nltk.download("vader_lexicon")
 
 # ================= CONFIG =================
-# Gemini API Key (put directly here)
 GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"
 
-# Email credentials
 EMAIL_FROM = "your_email@gmail.com"
-EMAIL_PASSWORD = "your_gmail_app_password"  # App password (not normal password)
+EMAIL_PASSWORD = "your_gmail_app_password"  # Gmail App Password
 EMAIL_TO = "receiver_email@gmail.com"
-EMAIL_SUBJECT = "📬 Automated Daily News"
+EMAIL_SUBJECT = "📬 Automated Daily News "
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT_SSL = 465
 
-# News Config
 RSS_FEEDS = [
     "https://techcrunch.com/feed/",
     "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"
@@ -31,10 +32,9 @@ RSS_FEEDS = [
 MAX_ARTICLES_PER_FEED = 5
 SUMMARY_MAX_WORDS = 180
 
-# Output
 OUTPUT_DIR = "data"
 FILENAME_PREFIX = "daily_news_"
-SEND_EMAIL_AFTER_RUN = True   # Auto-send after run?
+SEND_EMAIL_AFTER_RUN = True
 # ==========================================
 
 
@@ -98,12 +98,24 @@ def categorize(text: str) -> str:
             score, best = s, label
     return best
 
+# --- Sentiment Analysis ---
+def analyze_sentiment(text: str) -> str:
+    sia = SentimentIntensityAnalyzer()
+    scores = sia.polarity_scores(text)
+    if scores["compound"] >= 0.05:
+        return "Positive"
+    elif scores["compound"] <= -0.05:
+        return "Negative"
+    else:
+        return "Neutral"
+
 def write_digest_file(items: list, out_path: str):
     with open(out_path, "w", encoding="utf-8") as f:
         for it in items:
             f.write(f"📰 {it['title']}\n")
             f.write(f"🔗 {it['link']}\n")
             f.write(f"📂 Category: {it['category']}\n")
+            f.write(f"📈 Sentiment: {it['sentiment']}\n")
             f.write(f"🧠 Summary:\n{it['summary']}\n")
             f.write("-" * 70 + "\n")
 
@@ -138,15 +150,17 @@ def run():
     print("📡 Fetching articles...")
     articles = fetch_rss_articles(RSS_FEEDS, limit=MAX_ARTICLES_PER_FEED)
 
-    print("🤖 Summarizing...")
+    print("🤖 Summarizing & Analyzing...")
     processed = []
     for a in articles:
         summary = summarize(model, a["raw"], max_words=SUMMARY_MAX_WORDS)
+        sentiment = analyze_sentiment(summary)
         processed.append({
             "title": a["title"],
             "link": a["link"],
             "category": categorize(f"{a['title']} {summary}"),
-            "summary": summary
+            "summary": summary,
+            "sentiment": sentiment
         })
 
     ensure_dir(OUTPUT_DIR)
@@ -160,14 +174,4 @@ def run():
 
 # --- scheduler ---
 def schedule_job():
-    schedule.every().day.at("09:00").do(run)
-    print("⏰ Scheduler set for 9:00 AM daily...")
-    while True:
-        schedule.run_pending()
-        time.sleep(30)
-
-
-if __name__ == "__main__":
-    run()
-    # For daily schedule instead of one-time run:
-    # schedule_job()
+    schedule.every().day.at("09:00").do(run
